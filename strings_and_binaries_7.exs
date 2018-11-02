@@ -48,10 +48,6 @@ defmodule TaxCSVParser do
 
   defp stream_file(file), do: File.stream!(file)
 
-  defp reject_header(stream) do
-    Enum.reject(stream, fn (line) -> line == @header end)
-  end
-
   defp parse_lines(lines) do
     lines
     |> reject_header()
@@ -62,12 +58,15 @@ defmodule TaxCSVParser do
     TaxCalculator.calculate_tax(orders)
   end
 
+  defp reject_header(stream) do
+    Enum.reject(stream, fn (line) -> line == @header end)
+  end
+
   defp parse_line(line) do
-    [id, ship_to, net_amount] =
-      line
-      |> split_line()
-      |> normalize_line()
-      |> convert_to_keyword_list()
+    line
+    |> split_line()
+    |> normalize_line()
+    |> convert_to_keyword_list()
   end
 
   defp split_line(line), do: String.split(line, ",")
