@@ -1,7 +1,8 @@
 defmodule Issues.CLI do
+  import Issues.TableFormatter, only: [print_table_for_columns: 2]
+
   @default_count 4
   @option_parser_index 1
-
   @moduledoc """
   Handle the command line parsing and the dispatch to the various functions that end up generating a table of the last _n_ issues in a github project
   """
@@ -10,7 +11,7 @@ defmodule Issues.CLI do
     argv
     |> parse_args()
     |> process()
-    |> tabularize()
+    |> print_table_for_columns()
   end
 
   @doc """
