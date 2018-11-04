@@ -1,17 +1,17 @@
 defmodule Issues.CLI do
-  import Issues.TableFormatter, only: [print_table_for_columns: 2]
+  import Issues.FormatTable, only: [format: 2]
 
   @default_count 4
+  @default_headers ~w[id created_at title]
   @option_parser_index 1
   @moduledoc """
   Handle the command line parsing and the dispatch to the various functions that end up generating a table of the last _n_ issues in a github project
   """
 
-  def run(argv) do
+  def main(argv) do
     argv
     |> parse_args()
     |> process()
-    |> print_table_for_columns()
   end
 
   @doc """
@@ -28,10 +28,12 @@ defmodule Issues.CLI do
   end
 
   def process({user, project, count}) do
-    Issues.GithubIssues.fetch(user, project)
+    user
+    |> Issues.GithubIssues.fetch(project)
     |> decode_response()
     |> sort_issues()
-    |> last(5)
+    |> last(count)
+    |> format(@default_headers)
   end
 
   def process(_) do
