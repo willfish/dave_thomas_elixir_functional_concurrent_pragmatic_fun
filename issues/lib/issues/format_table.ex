@@ -92,15 +92,5 @@ defmodule Issues.FormatTable do
     |> String.length()
   end
 
-  defp extract_value(issue, header) do
-    with value = Map.get(issue, header),
-         value = normalize_value(value)
-    do
-      value
-    end
-  end
-
-  defp normalize_value(value) when is_float(value), do: Float.to_string(value)
-  defp normalize_value(value) when is_integer(value), do: Integer.to_string(value)
-  defp normalize_value(value), do: value
+  defp extract_value(issue, header), do: issue |> Map.get(header) |> to_string()
 end
