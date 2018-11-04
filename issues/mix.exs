@@ -5,6 +5,8 @@ defmodule Issues.MixProject do
     [
       app: :issues,
       version: "0.1.0",
+      name: "Issues",
+      source_url: "https://github.com/willfish/issues",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       escript: escript_config(),
@@ -22,6 +24,8 @@ defmodule Issues.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:earmark, "~> 1.2.6"},
+      {:ex_doc, "~> 0.19.1"},
       {:httpoison, "~> 1.4.0"},
       {:poison, "~> 4.0.1"}
     ]
